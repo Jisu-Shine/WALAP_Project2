@@ -1,0 +1,38 @@
+[
+  {
+    "title": "인생의 열가지 생각",
+    "author": "이해인",
+    "startDate": "2023.12.25",
+    "lastReadDate": "2023.12.27",
+    "pagesRead": 26,
+    "totalPages": "267",
+    "progress": 10.0
+  },
+  {
+    "title": "보통 이하의 것들",
+    "author": "조르주 페렉",
+    "startDate": "2023.1.5",
+    "lastReadDate": "2023.1.7",
+    "pagesRead": 20,
+    "totalPages": "400",
+    "progress": 5.0
+  },
+  {
+    "title": "도시락 소풍",
+    "author": "박소연",
+    "startDate": "2022.11.25",
+    "lastReadDate": "2022.11.30",
+    "pagesRead": 80,
+    "totalPages": "160",
+    "progress": 50.0
+  },
+  {
+    "title": "부의 삼각형",
+    "author": "권은진",
+    "startDate": "2024.1.1",
+    "lastReadDate": "2024.1.2",
+    "pagesRead": 33,
+    "totalPages": "300",
+    "progress": 11.0
+  }
+]
