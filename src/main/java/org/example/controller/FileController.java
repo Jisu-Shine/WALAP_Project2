@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.model.BookModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -55,8 +56,8 @@ public class FileController {
                 String author = (String) bookJson.get("author");
                 String startDate = (String) bookJson.get("startDate");
                 String lastReadDate = (String) bookJson.get("lastReadDate");
-                long pagesRead = (long) bookJson.get("pagesRead");
-                long totalPages = (long) bookJson.get("totalPages");
+                int pagesRead = (int) bookJson.get("pagesRead");
+                int totalPages = (int) bookJson.get("totalPages");
                 double progress = (double) bookJson.get("progress");
 
                 BookModel book = new BookModel(title, author, startDate, totalPages);
@@ -66,8 +67,10 @@ public class FileController {
 
                 books.add(book);
             }
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        } catch (org.json.simple.parser.ParseException e) {
+            throw new RuntimeException(e);
         }
 
         return books;
