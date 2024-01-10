@@ -57,9 +57,9 @@ public class FileController {
                 String startDate = (String) bookJson.get("startDate");
                 String lastReadDate = (String) bookJson.get("lastReadDate");
 
-                int pagesRead = ((Number) bookJson.get("pagesRead")).intValue();
-                int totalPages = ((Number) bookJson.get("totalPages")).intValue();
-                double progress = ((Number) bookJson.get("progress")).doubleValue();
+                int pagesRead = Integer.parseInt(String.valueOf(bookJson.get("pagesRead")));
+                int totalPages = Integer.parseInt(String.valueOf(bookJson.get("totalPages")));
+                double progress = Double.parseDouble(String.valueOf(bookJson.get("progress")));
 
                 BookModel book = new BookModel(title, author, startDate, totalPages);
                 book.setLastReadDate(lastReadDate);
