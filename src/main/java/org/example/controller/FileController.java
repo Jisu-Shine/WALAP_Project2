@@ -8,7 +8,6 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +18,9 @@ public class FileController {
         this.filePath = filePath;
     }
 
+
     // Save books to JSON file
-    public void saveBooksToFile(List<BookModel> books) {
+    public void saveBooksToJson(List<BookModel> books) {
         JSONArray jsonArray = new JSONArray();
 
         for (BookModel book : books) {
@@ -56,13 +56,14 @@ public class FileController {
                 String author = (String) bookJson.get("author");
                 String startDate = (String) bookJson.get("startDate");
                 String lastReadDate = (String) bookJson.get("lastReadDate");
-                int pagesRead = (int) bookJson.get("pagesRead");
-                int totalPages = (int) bookJson.get("totalPages");
-                double progress = (double) bookJson.get("progress");
+
+                int pagesRead = ((Number) bookJson.get("pagesRead")).intValue();
+                int totalPages = ((Number) bookJson.get("totalPages")).intValue();
+                double progress = ((Number) bookJson.get("progress")).doubleValue();
 
                 BookModel book = new BookModel(title, author, startDate, totalPages);
                 book.setLastReadDate(lastReadDate);
-                book.setPagesRead((int) pagesRead);
+                book.setPagesRead(pagesRead);
                 book.setProgress(progress);
 
                 books.add(book);
@@ -71,8 +72,9 @@ public class FileController {
             e.printStackTrace();
         } catch (org.json.simple.parser.ParseException e) {
             throw new RuntimeException(e);
+        } catch (ClassCastException e) {
+            System.err.println("ClassCastException: " + e.getMessage());
         }
-
         return books;
     }
 

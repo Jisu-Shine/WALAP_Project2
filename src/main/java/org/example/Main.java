@@ -1,14 +1,17 @@
 package org.example;
 
 import org.example.controller.BookController;
+import org.example.controller.FileController;
 import org.example.view.BookView;
 
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        FileController fileController = new FileController("src/main/java/org/example/model/Book.json");
+
         Scanner s = new Scanner(System.in);
-        BookController bookController = new BookController();
+        BookController bookController = new BookController(fileController);
         BookView bookView = new BookView(bookController);
 
         while (true){

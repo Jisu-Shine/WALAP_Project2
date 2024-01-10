@@ -2,25 +2,30 @@ package org.example.controller;
 
 import org.example.model.BookModel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class BookController {
-    private final List<BookModel> book;
+    private final List<BookModel> books;
+    private final FileController fileController;
 
-    public BookController() {
-        this.book = new ArrayList<>();
+    public BookController(FileController fileController) {
+        this.books = fileController.loadBooksFromFile();
+        this.fileController = fileController;
     }
 
     // 도서 추가
     public void addBook(String title, String author, String startDate, int totalPages) {
         BookModel newBook = new BookModel(title, author, startDate, totalPages);
-        book.add(newBook);
+        books.add(newBook);
+        fileController.saveBooksToJson(books);
         System.out.println("새로운 도서가 추가되었습니다.");
     }
 
     // 도서 목록 보기
     public List<BookModel> displayBooks() {
-        return book;
+        return books;
     }
 
     // 도서 수정하기
@@ -39,12 +44,13 @@ public class BookController {
         if (totalPages != '\0') {
             book.setTotalPages(totalPages);
         }
+        fileController.saveBooksToJson(books);
         System.out.println("도서가 성공적으로 업데이트되었습니다:)");
     }
 
     //도서명으로 도서 찾기
     public BookModel findBookByTitle(String title) {
-        return book.stream()
+        return books.stream()
                 .filter(book -> book.getTitle().equals(title))
                 .findFirst()
                 .orElse(null);
@@ -60,14 +66,15 @@ public class BookController {
         if (pagesRead != '\0') {
             book.setPagesRead(pagesRead);
         }
-        book.setProgress(pagesRead/(float)book.getTotalPages()*100);
+        book.setProgress(pagesRead / (float) book.getTotalPages() * 100);
+        fileController.saveBooksToJson(books);
         System.out.println("책갈피를 설정하였습니다:-)");
     }
 
-
     // 도서 삭제하기
     public void deleteBook(String title) {
-        book.removeIf(book -> book.getTitle().equals(title));
+        books.removeIf(book -> book.getTitle().equals(title));
+        fileController.saveBooksToJson(books);
         System.out.println("도서가 삭제되었습니다.");
     }
 
@@ -75,7 +82,7 @@ public class BookController {
     public List<BookModel> searchBook(String searchString) {
         List<BookModel> matchingBooks = new ArrayList<>();
 
-        for (BookModel b : book) {
+        for (BookModel b : books) {
             if (b.getTitle().contains(searchString)) {
                 matchingBooks.add(b);
             }
@@ -85,9 +92,9 @@ public class BookController {
 
     // 진행률 정렬하기 (예시: 진행률에 따라 오름차순 정렬)
     public  ArrayList<BookModel> sortByProgress() {
-        ArrayList<BookModel> sortedBooks = new ArrayList<>(book);
+        ArrayList<BookModel> sortedBooks = new ArrayList<>(books);
         sortedBooks.sort(Comparator.comparingDouble(BookModel::getProgress));
         return sortedBooks;
     }
-
 }
+
