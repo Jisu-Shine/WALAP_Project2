@@ -1,10 +1,10 @@
-import controller.BookController;
-import view.BookView;
+package org.example;
 
-import java.util.Scanner;
+import org.example.controller.BookController;
+import org.example.view.BookView;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);

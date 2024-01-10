@@ -1,6 +1,6 @@
-package controller;
+package org.example.controller;
 
-import model.BookModel;
+import org.example.model.BookModel;
 
 import java.util.*;
 

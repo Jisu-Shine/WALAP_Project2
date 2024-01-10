@@ -1,12 +1,13 @@
-package controller;
+package org.example.controller;
 
-import model.BookModel;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.example.model.BookModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +32,11 @@ public class FileController {
             bookJson.put("totalPages", book.getTotalPages());
             bookJson.put("progress", book.getProgress());
 
-            jsonArray.put(bookJson);
+            jsonArray.add(bookJson);  // Use add method instead of put
         }
 
         try (FileWriter file = new FileWriter(filePath)) {
-            file.write(jsonArray.toString(4)); // Indentation of 4 spaces
+            file.write(jsonArray.toJSONString());  // Use toJSONString without indentation
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,29 +47,30 @@ public class FileController {
         List<BookModel> books = new ArrayList<>();
 
         try (FileReader reader = new FileReader(filePath)) {
-            JSONArray jsonArray = new JSONArray(reader);
+            JSONArray jsonArray = (JSONArray) new JSONParser().parse(reader);
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject bookJson = jsonArray.getJSONObject(i);
-                String title = bookJson.getString("title");
-                String author = bookJson.getString("author");
-                String startDate = bookJson.getString("startDate");
-                String lastReadDate = bookJson.getString("lastReadDate");
-                int pagesRead = bookJson.getInt("pagesRead");
-                int totalPages = bookJson.getInt("totalPages");
-                double progress = bookJson.getDouble("progress");
+            for (Object obj : jsonArray) {
+                JSONObject bookJson = (JSONObject) obj;
+                String title = (String) bookJson.get("title");
+                String author = (String) bookJson.get("author");
+                String startDate = (String) bookJson.get("startDate");
+                String lastReadDate = (String) bookJson.get("lastReadDate");
+                long pagesRead = (long) bookJson.get("pagesRead");
+                long totalPages = (long) bookJson.get("totalPages");
+                double progress = (double) bookJson.get("progress");
 
                 BookModel book = new BookModel(title, author, startDate, totalPages);
                 book.setLastReadDate(lastReadDate);
-                book.setPagesRead(pagesRead);
+                book.setPagesRead((int) pagesRead);
                 book.setProgress(progress);
 
                 books.add(book);
             }
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
         return books;
     }
+
 }

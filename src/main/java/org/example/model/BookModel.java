@@ -1,6 +1,4 @@
-package model;
-
-import java.util.Date;
+package org.example.model;
 
 public class BookModel {
     private String title;
